@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Urhythmic demo page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 26px;
+            margin: 0;
+        }
+
+        main {
+            padding: 0px 20px 20px 20px;
+        }
+
+        header {
+            background: #000000;
+            padding: 2px;
+            display: flex;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            justify-content: left;
+            flex-basis: 100%
+        }
+
+        .img {
+            padding-top: 3px;
+            padding-bottom: 3px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .laforge {
+            color: #FFCD00;
+            font-size: 22px;
+            font-family: 'Courier', monospace;
+
+        }
+
+        table {
+            display: block;
+            width: 100%;
+            border-collapse: collapse;
+            overflow: auto;
+        }
+
+        hr {
+            height: 1px;
+            background-color: #D3D3D3;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-left">
+            <div class="img">
+                <img src="la-forge.png" alt="la forge logo" loading="lazy" width="81" height="81">
+            </div>
+            <div class="laforge">La Forge</div>
+        </div>
+
+        <div class="img">
+            <img src="ubisoft.png" alt="ubisoft logo" loading="lazy" width="166" height="54">
+        </div>
+    </header>
+
+    <main>
+        <h1>Rhythm Modeling for Voice Conversion</h1>
+        <p>
+            <b>Authors:</b>
+            Benjamin van Niekerk, Marc-André Carbonneau, Herman Kamper
+        </p>
+        <p>
+            <b>Abstract:</b>
+            Voice conversion transform source speech into the voice of a different speaker.
+            While rhythm is an important factor for the perception of identity, it is not modeled in typical voice
+            conversion systems.
+            This paper introduce Urhythmic, an unsupervised method for rhythm conversion that does not require parallel
+            data
+            or text transcriptions.
+            Using self-supervised representations, we segment source audio into units roughly corresponding to
+            sonorants,
+            obstruents, and silences.
+            Then we model rhythm by estimating speaking rate or the duration distribution of each segment type.
+            Finally, we match the target rhythm by time-stretching speech segments before synthesizing.
+            Experiments show that Urhythmic outperforms existing unsupervised methods in terms of quality and prosody.
+        </p>
+
+        <p>
+            Code and pretrained models are available <a href="https://github.com/bshall/urhythmic" target="_blank"
+                rel="noopener noreferrer">here</a>.
+        </p>
+
+        <p>
+            <b>If you are having trouble listening to the audio, please refresh the page.</b>
+        </p>
+
+        <hr />
+
+        <section>
+            <h2>Samples from Urhythmic</h2>
+            <p>
+                In this section, we present some speech samples from our fine-grained approach. <br />
+                We pick the three fastest and three slowest speakers from <a
+                    href="https://datashare.ed.ac.uk/handle/10283/3443" target="_blank"
+                    rel="noopener noreferrer">VCTK</a> .
+                To avoid conflating accent and speaker identity, we limit the selection to a single region (Southern
+                England).
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th colspan="6" style="border-bottom:1px solid #D3D3D3;">
+                            targets
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th></th>
+                        <th>
+                            p228
+                        </th>
+                        <th>
+                            p268
+                        </th>
+                        <th>
+                            p225
+                        </th>
+                        <th>
+                            p232
+                        </th>
+                        <th>
+                            p257
+                        </th>
+                        <th>
+                            p231
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <th>
+                            <audio name="{{name}}" controls preload src="{{link}}"></audio>
+                        </th>
+                        <th>
+                            <audio name="{{name}}" controls preload src="{{link}}"></audio>
+                        </th>
+                        <th>
+                            <audio name="{{name}}" controls preload src="{{link}}"></audio>
+                        </th>
+                        <th>
+                            <audio name="{{name}}" controls preload src="{{link}}"></audio>
+                        </th>
+                        <th>
+                            <audio name="{{name}}" controls preload src="{{link}}"></audio>
+                        </th>
+                        <th>
+                            <audio name="{{name}}" controls preload src="{{link}}"></audio>
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <audio controls preload
+                                src="https://github.com/bshall/urhythmic/blob/gh-pages/samples/urhythmic-fine/source/p228_003.wav">
+                            </audio>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                            <audio controls preload
+                                src="https://github.com/bshall/urhythmic/blob/gh-pages/samples/urhythmic-fine/target/p268/p228_003.wav">
+                            </audio>
+                        </td>
+                        <td>
+                            <audio controls preload
+                                src="https://github.com/bshall/urhythmic/blob/gh-pages/samples/urhythmic-fine/target/p225/p228_003.wav">
+                            </audio>
+                        </td>
+                        <td>
+                            <audio controls preload
+                                src="https://github.com/bshall/urhythmic/blob/gh-pages/samples/urhythmic-fine/target/p232/p228_003.wav">
+                            </audio>
+                        </td>
+                        <td>
+                            <audio controls preload
+                                src="https://github.com/bshall/urhythmic/blob/gh-pages/samples/urhythmic-fine/target/p257/p228_003.wav">
+                            </audio>
+                        </td>
+                        <td>
+                            <audio controls preload
+                                src="https://github.com/bshall/urhythmic/blob/gh-pages/samples/urhythmic-fine/target/p231/p228_003.wav">
+                            </audio>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+
+</html>
