@@ -72,7 +72,10 @@
         </div>
 
         <div class="img">
-            <img src="ubisoft.png" alt="ubisoft logo" loading="lazy" width="166" height="54">
+            <img src="sulogo.svg" alt="stellenbosch university logo" loading="lazy" height="100">
+        </div>
+        <div class="img">
+            <img src="ubisoft.png" alt="ubisoft logo" loading="lazy" height="54">
         </div>
     </header>
 
@@ -84,17 +87,15 @@
         </p>
         <p>
             <b>Abstract:</b>
-            Voice conversion transform source speech into the voice of a different speaker.
-            While rhythm is an important factor for the perception of identity, it is not modeled in typical voice
-            conversion systems.
-            This paper introduce Urhythmic, an unsupervised method for rhythm conversion that does not require parallel
-            data
-            or text transcriptions.
-            Using self-supervised representations, we segment source audio into units roughly corresponding to
-            sonorants,
+            Voice conversion aims to transforms source speech into a different target voice.
+            However, typical voice conversion systems do not account for rhythm, which is an important factor in the
+            perception of speaker identity.
+            To bridge this gap, we introduce Urhythmic&mdash;an unsupervised method for rhythm conversion that does not
+            require parallel data or text transcriptions.
+            Using self-supervised representations, we first divide source audio into segments approximating sonorants,
             obstruents, and silences.
             Then we model rhythm by estimating speaking rate or the duration distribution of each segment type.
-            Finally, we match the target rhythm by time-stretching speech segments before synthesizing.
+            Finally, we match the target speaking rate or rhythm by time-stretching the speech segments.
             Experiments show that Urhythmic outperforms existing unsupervised methods in terms of quality and prosody.
         </p>
 
@@ -117,7 +118,9 @@
                     href="https://datashare.ed.ac.uk/handle/10283/3443" target="_blank"
                     rel="noopener noreferrer">VCTK</a>.
                 To avoid conflating accent and speaker identity, we limit the selection to a single region (Southern
-                England).
+                England). <br />
+                The target speakers in the following table are ordered by speaking rate from slowest on the left to
+                fastest on the right.
             </p>
 
             <table>
@@ -559,8 +562,8 @@
 
             <p>
                 Next, we use Urhythmic to edit the rhythm of an utterance without supervision.
-                For this example, we cut the dendrogram (Fig.1) into eight clusters to illustrate control over the
-                different sound types (vowel, approximant, nasal, fricative, stop, silence).
+                For this example, we cut the dendrogram (Fig.4 in the paper) into eight clusters to illustrate control
+                over the different sound types (vowel, approximant, nasal, fricative, stop, silence).
                 <br />
                 We visulaize the effect of stretching or contracting some clusters in Fig.2.
             </p>
