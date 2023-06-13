@@ -112,7 +112,7 @@
         <section>
             <h2>Samples from Urhythmic</h2>
             <p>
-                In this section, we present some speech samples from our <b>fine-grained approach</b>. <br />
+                This section contains speech samples from our <b>fine-grained</b> approach. <br />
                 We pick the three fastest and three slowest speakers from <a
                     href="https://datashare.ed.ac.uk/handle/10283/3443" target="_blank"
                     rel="noopener noreferrer">VCTK</a>.
@@ -401,7 +401,7 @@
         <section>
             <h2>Comparison to baselines</h2>
             <p>
-                In this section, we present samples from the subjective evaluations. <br />
+                Here we present samples from the subjective evaluations. <br />
                 We compare against two baselines: <a href="https://github.com/auspicious3000/AutoPST" target="_blank"
                     rel="noopener noreferrer">AutoPST</a> and <a href="https://github.com/gallilmaimon/DISSC"
                     target="_blank" rel="noopener noreferrer">DISSC</a>.
@@ -550,6 +550,159 @@
             </table>
 
             <br />
+        </section>
+
+        <hr />
+
+        <section>
+            <h2>Duration Control</h2>
+
+            <p>
+                Next, we use Urhythmic to edit the rhythm of an utterance without supervision.
+                For this example, we cut the dendrogram (Fig.1) into eight clusters to illustrate control over the
+                different sound types (vowel, approximant, nasal, fricative, stop, silence).
+                <br />
+                We visulaize the effect of stretching or contracting some clusters in Fig.2.
+            </p>
+
+            <figure>
+                <img src="control.svg" alt="sound type control" loading="lazy" style="width: 100%; max-width: 640px;">
+                <figcaption>
+                    <sup>
+                        <strong>Fig.2</strong> - An example of fine-grained rhythm control. (middle) The converted
+                        utterance without modification.
+                        The result of (top) stretching segments corresponding to nasals, or (bottom) shortening vowels.
+                    </sup>
+                </figcaption>
+            </figure>
+
+            <p>
+                Next, we strech segments in different clusters slow different sound types down by a factor of two.
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th style="min-width: 100px;">sound type</th>
+                        <th style="min-width: 100px;">cluster#</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="2" style="text-align: center;">
+                            no-modification
+                        </td>
+                        <td>
+                            <audio controls preload="metadata"
+                                src="https://github.com/bshall/urhythmic/raw/gh-pages/samples/editing/unmodified.wav">
+                            </audio>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            fricatives
+                        </td>
+                        <td style="text-align: center;">
+                            6,7
+                        </td>
+                        <td>
+                            <audio controls preload="metadata"
+                                src="https://github.com/bshall/urhythmic/raw/gh-pages/samples/editing/fricatives.wav">
+                            </audio>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            vowels
+                        </td>
+                        <td style="text-align: center;">
+                            2,4
+                        </td>
+                        <td>
+                            <audio controls preload="metadata"
+                                src="https://github.com/bshall/urhythmic/raw/gh-pages/samples/editing/vowels.wav">
+                            </audio>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            silences
+                        </td>
+                        <td style="text-align: center;">
+                            0
+                        </td>
+                        <td>
+                            <audio controls preload="metadata"
+                                src="https://github.com/bshall/urhythmic/raw/gh-pages/samples/editing/silences.wav">
+                            </audio>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            stops
+                        </td>
+                        <td style="text-align: center;">
+                            3
+                        </td>
+                        <td>
+                            <audio controls preload="metadata"
+                                src="https://github.com/bshall/urhythmic/raw/gh-pages/samples/editing/stops.wav">
+                            </audio>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            approximants
+                        </td>
+                        <td style="text-align: center;">
+                            1
+                        </td>
+                        <td>
+                            <audio controls preload="metadata"
+                                src="https://github.com/bshall/urhythmic/raw/gh-pages/samples/editing/approximants.wav">
+                            </audio>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            nasals
+                        </td>
+                        <td style="text-align: center;">
+                            5
+                        </td>
+                        <td>
+                            <audio controls preload="metadata"
+                                src="https://github.com/bshall/urhythmic/raw/gh-pages/samples/editing/nasals.wav">
+                            </audio>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <br />
+        </section>
+
+        <hr />
+
+        <section>
+            <h2>Supplementary Results</h2>
+
+            <p>
+                This section presents an additional visualization of the correlation between the estimated speaking rate
+                and the syllable rate. <br />
+            </p>
+
+            <figure>
+                <img src="correlation.svg" alt="correlation between the estimated speaking rate and the syllable rate"
+                    loading="lazy" style="width: 100%; max-width: 640px;">
+                <figcaption>
+                    <sup>
+                        <strong>Fig.3</strong> - Syllable rate versus estimated speaking rate using Urhythmic.
+                        Each point represents a speaker from the LibriSpeech dev or test split.
+                    </sup>
+                </figcaption>
+            </figure>
         </section>
     </main>
 </body>
