@@ -57,8 +57,8 @@ def segmenter(
 
 
 def rhythm_model_fine_grained(
-    source: None | str,
-    target: None | str,
+    source_speaker: None | str,
+    target_speaker: None | str,
     pretrained: bool = True,
     progress=True,
 ) -> RhythmModelFineGrained:
@@ -69,17 +69,17 @@ def rhythm_model_fine_grained(
         LJSpeech.
 
     Args:
-        source (None | str): the source speaker. None to fit your own source speaker or a selection from the available speakers.
-        target (None | str): the target speaker. None to fit your own source speaker or a selection from the available speakers.
+        source_speaker (None | str): the source speaker. None to fit your own source speaker or a selection from the available speakers.
+        target_speaker (None | str): the target speaker. None to fit your own source speaker or a selection from the available speakers.
         pretrained (bool): load pretrained weights into the model.
         progress (bool): show progress bar when downloading model.
 
     Returns:
         RhythmModelFineGrained: the fine-grained rhythm modeling block (optionally preloaded with source and target duration models).
     """
-    if source is not None and source not in SPEAKERS:
+    if source_speaker is not None and source_speaker not in SPEAKERS:
         raise ValueError(f"source speaker is not in available set: {SPEAKERS}")
-    if target is not None and target not in SPEAKERS:
+    if target_speaker is not None and target_speaker not in SPEAKERS:
         raise ValueError(f"target speaker is not in available set: {SPEAKERS}")
 
     rhythm_model = RhythmModelFineGrained()
@@ -89,17 +89,17 @@ def rhythm_model_fine_grained(
             progress=progress,
         )
         state_dict = {}
-        if target:
-            state_dict["target"] = checkpoint[target]
-        if source:
-            state_dict["source"] = checkpoint[source]
+        if target_speaker:
+            state_dict["target"] = checkpoint[target_speaker]
+        if source_speaker:
+            state_dict["source"] = checkpoint[source_speaker]
         rhythm_model.load_state_dict(state_dict)
     return rhythm_model
 
 
 def rhythm_model_global(
-    source: None | str,
-    target: None | str,
+    source_speaker: None | str,
+    target_speaker: None | str,
     pretrained: bool = True,
     progress=True,
 ) -> RhythmModelGlobal:
@@ -110,17 +110,17 @@ def rhythm_model_global(
         LJSpeech.
 
     Args:
-        source (None | str): the source speaker. None to fit your own source speaker or a selection from the available speakers.
-        target (None | str): the target speaker. None to fit your own source speaker or a selection from the available speakers.
+        source_speaker (None | str): the source speaker. None to fit your own source speaker or a selection from the available speakers.
+        target_speaker (None | str): the target speaker. None to fit your own source speaker or a selection from the available speakers.
         pretrained (bool): load pretrained weights into the model.
         progress (bool): show progress bar when downloading model.
 
     Returns:
         RhythmModelGlobal: the global rhythm modeling block (optionally preloaded with source and target speaking rates).
     """
-    if source is not None and source not in SPEAKERS:
+    if source_speaker is not None and source_speaker not in SPEAKERS:
         raise ValueError(f"source speaker is not in available set: {SPEAKERS}")
-    if target is not None and target not in SPEAKERS:
+    if target_speaker is not None and target_speaker not in SPEAKERS:
         raise ValueError(f"target speaker is not in available set: {SPEAKERS}")
 
     rhythm_model = RhythmModelGlobal()
@@ -130,10 +130,10 @@ def rhythm_model_global(
             progress=progress,
         )
         state_dict = {}
-        if target:
-            state_dict["target_rate"] = checkpoint[target]
-        if source:
-            state_dict["source_rate"] = checkpoint[source]
+        if target_speaker:
+            state_dict["target_rate"] = checkpoint[target_speaker]
+        if source_speaker:
+            state_dict["source_rate"] = checkpoint[source_speaker]
         rhythm_model.load_state_dict(state_dict)
     return rhythm_model
 
@@ -203,8 +203,8 @@ def hifigan_discriminator(
 
 
 def urhythmic_fine(
-    source: str | None,
-    target: str | None,
+    source_speaker: str | None,
+    target_speaker: str | None,
     pretrained: bool = True,
     progress: bool = True,
     map_location=None,
@@ -216,8 +216,8 @@ def urhythmic_fine(
         LJSpeech.
 
     Args:
-        source (None | str): the source speaker. None to fit your own source speaker or a selection from the available speakers.
-        target (None | str): the target speaker. None to fit your own source speaker or a selection from the available speakers.
+        source_speaker (None | str): the source speaker. None to fit your own source speaker or a selection from the available speakers.
+        target_speaker (None | str): the target speaker. None to fit your own source speaker or a selection from the available speakers.
         pretrained (bool): load pretrained weights into the model.
         progress (bool): show progress bar when downloading model.
         map_location: function or a dict specifying how to remap storage locations (see torch.load)
@@ -228,11 +228,14 @@ def urhythmic_fine(
     """
     seg = segmenter(num_clusters=3, gamma=2, pretrained=pretrained, progress=progress)
     rhythm_model = rhythm_model_fine_grained(
-        source=source, target=target, pretrained=pretrained, progress=progress
+        source_speaker=source_speaker,
+        target_speaker=target_speaker,
+        pretrained=pretrained,
+        progress=progress,
     )
     time_stretcher = TimeStretcherFineGrained()
     vocoder = hifigan_generator(
-        speaker=target,
+        speaker=target_speaker,
         pretrained=pretrained,
         progress=progress,
         map_location=map_location,
@@ -241,8 +244,8 @@ def urhythmic_fine(
 
 
 def urhythmic_global(
-    source: str | None,
-    target: str | None,
+    source_speaker: str | None,
+    target_speaker: str | None,
     pretrained: bool = True,
     progress: bool = True,
     map_location=None,
@@ -254,8 +257,8 @@ def urhythmic_global(
         LJSpeech.
 
     Args:
-        source (None | str): the source speaker. None to fit your own source speaker or a selection from the available speakers.
-        target (None | str): the target speaker. None to fit your own source speaker or a selection from the available speakers.
+        source_speaker (None | str): the source speaker. None to fit your own source speaker or a selection from the available speakers.
+        target_speaker (None | str): the target speaker. None to fit your own source speaker or a selection from the available speakers.
         pretrained (bool): load pretrained weights into the model.
         progress (bool): show progress bar when downloading model.
         map_location: function or a dict specifying how to remap storage locations (see torch.load)
@@ -266,11 +269,14 @@ def urhythmic_global(
     """
     seg = segmenter(num_clusters=3, gamma=2, pretrained=pretrained, progress=progress)
     rhythm_model = rhythm_model_global(
-        source=source, target=target, pretrained=pretrained, progress=progress
+        source_speaker=source_speaker,
+        target_speaker=target_speaker,
+        pretrained=pretrained,
+        progress=progress,
     )
     time_stretcher = TimeStretcherGlobal()
     vocoder = hifigan_generator(
-        speaker=target,
+        speaker=target_speaker,
         pretrained=pretrained,
         progress=progress,
         map_location=map_location,

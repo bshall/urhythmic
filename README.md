@@ -23,7 +23,12 @@ hubert = torch.hub.load("bshall/hubert:main", "hubert_soft").cuda()
 source, target = "p231", "p225"
 
 # Load Urhythmic (either urhythmic_fine or urhythmic_global)
-urhythmic, encode = torch.hub.load("bshall/urhythmic:main", "urhythmic_fine", source=source, target=target)
+urhythmic, encode = torch.hub.load(
+    "bshall/urhythmic:main", 
+    "urhythmic_fine", 
+    source_speaker=source, 
+    target_speaker=target,
+)
 urhythmic.cuda()
 
 # Load the source audio
