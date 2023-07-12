@@ -1,12 +1,11 @@
-<p align="center">
-    <a target="_blank" href="https://colab.research.google.com/github/bshall/urhythmic/blob/main/urhythmic_demo.ipynb">
-        <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
-    </a>
-</p>
-
 # Urhythmic: Rhythm Modeling for Voice Conversion
 
-Official repository for [Rhythm Modeling for Voice Conversion](). Audio samples can be found [here](https://ubisoft-laforge.github.io/speech/urhythmic/). Colab demo can be found [here](https://colab.research.google.com/github/bshall/urhythmic/blob/main/urhythmic_demo.ipynb).
+[![demo](https://img.shields.io/static/v1?message=Audio%20Samples&logo=Github&labelColor=grey&color=blue&logoColor=white&label=%20&style=flat)](https://ubisoft-laforge.github.io/speech/urhythmic/)
+[![colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/bshall/urhythmic/blob/main/urhythmic_demo.ipynb)
+
+Official repository for [Rhythm Modeling for Voice Conversion]().
+Audio samples can be found [here](https://ubisoft-laforge.github.io/speech/urhythmic/). 
+Colab demo can be found [here](https://colab.research.google.com/github/bshall/urhythmic/blob/main/urhythmic_demo.ipynb).
 
 **Abstract**: Voice conversion aims to transform source speech into a different target voice.  However, typical voice conversion systems do not account for rhythm, which is an important factor in the perception of speaker identity. To bridge this gap, we introduce Urhythmic - an unsupervised method for rhythm conversion that does not require parallel data or text transcriptions. Using self-supervised representations, we first divide source audio into segments  approximating sonorants, obstruents, and silences. Then we model rhythm by estimating speaking rate or the duration distribution of each segment type. Finally, we match the target speaking rate or rhythm by time-stretching the speech segments.Experiments show that Urhythmic outperforms existing unsupervised methods in terms of quality and prosody.
 
