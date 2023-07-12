@@ -39,7 +39,7 @@ urhythmic.cuda()
 # Load the source audio
 wav, sr = torchaudio.load("path/to/wav")
 assert sr == 16000
-wav = source.unsqueeze(0).cuda()
+wav = wav.unsqueeze(0).cuda()
 
 # Convert to the target speaker
 with torch.inference_mode():
