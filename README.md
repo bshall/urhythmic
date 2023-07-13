@@ -1,9 +1,10 @@
 # Urhythmic: Rhythm Modeling for Voice Conversion
 
+[![arXiv](https://img.shields.io/badge/arXiv-Paper-<COLOR>.svg)](https://arxiv.org/abs/2307.06040)
 [![demo](https://img.shields.io/static/v1?message=Audio%20Samples&logo=Github&labelColor=grey&color=blue&logoColor=white&label=%20&style=flat)](https://ubisoft-laforge.github.io/speech/urhythmic/)
 [![colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/bshall/urhythmic/blob/main/urhythmic_demo.ipynb)
 
-Official repository for [Rhythm Modeling for Voice Conversion]().
+Official repository for [Rhythm Modeling for Voice Conversion](https://arxiv.org/abs/2307.06040).
 Audio samples can be found [here](https://ubisoft-laforge.github.io/speech/urhythmic/). 
 Colab demo can be found [here](https://colab.research.google.com/github/bshall/urhythmic/blob/main/urhythmic_demo.ipynb).
 
