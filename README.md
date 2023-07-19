@@ -76,12 +76,12 @@ options:
 
 Here we outline the training steps for [VCTK](https://datashare.ed.ac.uk/handle/10283/3443). However, it should be straight forward to extend the recipe to other datasets.
 
-1. [Prepare the Dataset](### Step 1: Prepare the Dataset)
-2. [Extract Soft Speech Units and Log Probabilities](### Step 2: Extract Soft Speech Units and Log Probabilities)
-3. [Train the Segmenter](### Step 3: Train the Segmenter)
-4. [Segmentation and Clustering](### Step 4: Segmentation and Clustering)
-5. [Train the Rhythm Model](### Step 5: Train the Rhythm Model)
-6. [Train or Finetune the Vocoder](### Step 6: Train or Finetune the Vocoder)
+1. [Prepare the Dataset](#step-1-prepare-the-dataset)
+2. [Extract Soft Speech Units and Log Probabilities](#step-2-extract-soft-speech-units-and-log-probabilities)
+3. [Train the Segmenter](#step-3-train-the-segmenter)
+4. [Segmentation and Clustering](#step-4-segmentation-and-clustering)
+5. [Train the Rhythm Model](#step-5-train-the-rhythm-model)
+6. [Train or Finetune the Vocoder](#step-6-train-or-finetune-the-vocoder)
 
 ### Step 1: Prepare the Dataset
 
