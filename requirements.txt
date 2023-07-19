@@ -1,0 +1,11 @@
+torch==2.0.1
+torchaudio==2.0.2
+numpy==1.24.3
+scipy==1.10.1
+numba==0.57.0
+scikit-learn==1.2.2
+tqdm==4.65.0
+librosa==0.10.0.post2
+webrtcvad==2.0.10
+tensorboard==2.13.0
+matplotlib==3.7.1

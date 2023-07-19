@@ -103,7 +103,6 @@ class UrhythmicGlobal(nn.Module):
         Returns:
             Tensor: the converted waveform of shape (1, 1, T) where T is the number of samples.
         """
-        clusters, boundaries = self.segmenter(log_probs.squeeze().cpu().numpy())
         ratio = self.rhythm_model()
         units = self.time_stretcher(units, ratio)
         wav = self.vocoder(units)

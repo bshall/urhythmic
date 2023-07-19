@@ -61,7 +61,7 @@ class RhythmModelFineGrained:
             for cluster, durations in durations_dict.items()
         }
 
-    def state_dict(self) -> Mapping[str, Any]:
+    def state_dict(self) -> Mapping[str, Mapping[SoundType, Tuple[float, ...]]]:
         state_dict = {}
         if self.source:
             state_dict["source"] = {
@@ -75,19 +75,23 @@ class RhythmModelFineGrained:
             }
         return state_dict
 
-    def load_state_dict(self, state_dict: Mapping[str, Any]):
+    def load_state_dict(
+        self, state_dict: Mapping[str, Mapping[SoundType, Tuple[float, ...]]]
+    ):
         if "source" in state_dict:
             self.source = {
-                SoundType(cluster): stats.gamma(a, scale=scale)
+                cluster: stats.gamma(a, scale=scale)
                 for cluster, (a, _, scale) in state_dict["source"].items()
             }
         if "target" in state_dict:
             self.target = {
-                SoundType(cluster): stats.gamma(a, scale=scale)
+                cluster: stats.gamma(a, scale=scale)
                 for cluster, (a, _, scale) in state_dict["target"].items()
             }
 
-    def _fit(self, utterances):
+    def _fit(
+        self, utterances: List[Tuple[List[SoundType], List[int]]]
+    ) -> Mapping[SoundType, Tuple[float, ...]]:
         duration_tally = self._tally_durations(utterances)
         dists = {
             cluster: stats.gamma.fit(durations, floc=0)
@@ -144,7 +148,13 @@ class RhythmModelFineGrained:
 class RhythmModelGlobal:
     """Rhythm modeling block (Global). Estimates speaking rate."""
 
-    def __init__(self):
+    def __init__(self, hop_length: int = 320, sample_rate: int = 16000):
+        """
+        Args:
+            hop_length (int): hop length between the frames of speech units.
+            sample_rate (int): the sample rate of the audio waveforms.
+        """
+        self.hop_rate = hop_length / sample_rate
         self.source_rate = None
         self.target_rate = None
 
@@ -162,10 +172,10 @@ class RhythmModelGlobal:
         if "target_rate" in state_dict:
             self.target_rate = state_dict["target_rate"]
 
-    def _fit(self, utterances):
+    def _fit(self, utterances: List[Tuple[List[SoundType], List[int]]]) -> float:
         return np.mean(
             [
-                segment_rate(clusters, boundaries, SONORANT, SILENCE)
+                segment_rate(clusters, boundaries, SONORANT, SILENCE, self.hop_rate)
                 for clusters, boundaries in utterances
             ]
         )

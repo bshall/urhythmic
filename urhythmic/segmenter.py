@@ -1,4 +1,6 @@
 from typing import Mapping, Any, Tuple, List
+from collections import Counter
+import itertools
 
 import torch
 
@@ -6,7 +8,7 @@ import numpy as np
 from sklearn.cluster import AgglomerativeClustering
 import numba
 
-from urhythmic.utils import SoundType
+from urhythmic.utils import SoundType, SILENCE, SONORANT, OBSTRUENT
 
 
 class Segmenter:
@@ -31,7 +33,7 @@ class Segmenter:
             "n_leaves_": self.clustering.n_leaves_,
             "n_features_in_": self.clustering.n_features_in_,
             "children_": torch.from_numpy(self.clustering.children_),
-            "sound_types": {k: sound.value for k, sound in self.sound_types.items()},
+            "sound_types": self.sound_types,
         }
 
     def load_state_dict(self, state_dict: Mapping[str, Any]):
@@ -43,11 +45,9 @@ class Segmenter:
         self.clustering.n_leaves_ = state_dict["n_leaves_"]
         self.clustering.n_features_in_ = state_dict["n_features_in_"]
         self.clustering.children_ = state_dict["children_"].numpy()
-        self.sound_types = {
-            k: SoundType(v) for k, v in state_dict["sound_types"].items()
-        }
+        self.sound_types = state_dict["sound_types"]
 
-    def fit(self, codebook: np.ndarray):
+    def cluster(self, codebook: np.ndarray):
         """Fit the hierarchical clustering from the codebook of discrete units.
 
         Args:
@@ -55,6 +55,62 @@ class Segmenter:
                 where K is the number of units and D is the unit dimension.
         """
         self.clustering.fit(codebook)
+
+    def identify(
+        self,
+        utterances: List[Tuple[np.ndarray, ...]],
+    ) -> Mapping[int, SoundType]:
+        """Identify which clusters correspond to sonorants, obstruents, and silences.
+        Only implemented for num_clusters = 3.
+
+        Args:
+            utterances (List[Tuple[np.ndarray, ...]]): list of segmented utterances along with marked silences and voiced frames.
+
+        Returns:
+            Mapping[int, SoundType]: mapping of cluster id to sonorant, obstruent, or silence.
+        """
+        if self.clustering.n_clusters_ != 3:
+            raise ValueError(
+                "Cluster identification is only implemented for num_clusters = 3."
+            )
+
+        silence_overlap = Counter()
+        voiced_overlap = Counter()
+        total = Counter()
+
+        for segments, boundaries, silences, voiced_flags in utterances:
+            for code, (a, b) in zip(segments, itertools.pairwise(boundaries)):
+                silence_overlap[code] += np.count_nonzero(silences[a : b + 1])
+                voiced_overlap[code] += np.count_nonzero(voiced_flags[a : b + 1])
+                total[code] += b - a + 1
+
+        clusters = {0, 1, 2}
+
+        silence, _ = max(
+            [(k, v / total[k]) for k, v in silence_overlap.items()], key=lambda x: x[1]
+        )
+        clusters.remove(silence)
+
+        sonorant, _ = max(
+            [(k, v / total[k]) for k, v in voiced_overlap.items() if k in clusters],
+            key=lambda x: x[1],
+        )
+        clusters.remove(sonorant)
+
+        obstruent = clusters.pop()
+
+        self.sound_types = {
+            silence: SILENCE,
+            sonorant: SONORANT,
+            obstruent: OBSTRUENT,
+        }
+        return self.sound_types
+
+    def _segment(self, log_probs: np.ndarray) -> Tuple[List[int], List[int]]:
+        codes, boundaries = segment(log_probs, self.gamma)
+        segments = codes[boundaries[:-1]]
+        segments, boundaries = cluster_merge(self.clustering, segments, boundaries)
+        return list(segments), list(boundaries)
 
     def __call__(self, log_probs: np.ndarray) -> Tuple[List[SoundType], List[int]]:
         """Segment the soft speech units into groups approximating the different sound types.
@@ -66,11 +122,9 @@ class Segmenter:
             List[SoundType]: list of segmented sound types of shape (N,).
             List[int]: list of segment boundaries of shape (N+1,).
         """
-        codes, boundaries = segment(log_probs, self.gamma)
-        segments = codes[boundaries[:-1]]
-        segments, boundaries = cluster_merge(self.clustering, segments, boundaries)
+        segments, boundaries = self._segment(log_probs)
         segments = [self.sound_types[cluster] for cluster in segments]
-        return segments, list(boundaries)
+        return segments, boundaries
 
 
 def segment(log_probs: np.ndarray, gamma: float) -> Tuple[np.ndarray, np.ndarray]:

@@ -1,9 +1,9 @@
-dependencies = ["torch", "torchaudio", "numpy", "numba", "sklearn"]
+dependencies = ["torch", "torchaudio", "numpy", "scipy", "numba", "sklearn"]
 
 URLS = {
-    "segmenter-3": "https://github.com/bshall/urhythmic/releases/download/v0.1/segmenter-3-3864dc3e.pt",
-    "segmenter-8": "https://github.com/bshall/urhythmic/releases/download/v0.1/segmenter-8-82926f7f.pt",
-    "rhythm-model-fine-grained": "https://github.com/bshall/urhythmic/releases/download/v0.1/rhythm-fine-36633201.pt",
+    "segmenter-3": "https://github.com/bshall/urhythmic/releases/download/v0.1/segmenter-3-61beaeac.pt",
+    "segmenter-8": "https://github.com/bshall/urhythmic/releases/download/v0.1/segmenter-8-b3d14f93.pt",
+    "rhythm-model-fine-grained": "https://github.com/bshall/urhythmic/releases/download/v0.1/rhythm-fine-143621e1.pt",
     "rhythm-model-global": "https://github.com/bshall/urhythmic/releases/download/v0.1/rhythm-global-745d52d8.pt",
     "hifigan-p228": "https://github.com/bshall/urhythmic/releases/download/v0.1/hifigan-p228-4ab1748f.pt",
     "hifigan-p268": "https://github.com/bshall/urhythmic/releases/download/v0.1/hifigan-p268-36a1d51a.pt",
