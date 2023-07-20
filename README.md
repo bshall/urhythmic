@@ -83,6 +83,8 @@ Here we outline the training steps for [VCTK](https://datashare.ed.ac.uk/handle/
 5. [Train the Rhythm Model](#step-5-train-the-rhythm-model)
 6. [Train or Finetune the Vocoder](#step-6-train-or-finetune-the-vocoder)
 
+To apply `Urhythmic` to your own data, you can skip step 3. (i.e., the `Segmenter` doesn't need to be re-trained).
+
 ### Step 1: Prepare the Dataset
 
 Download and extract [VCTK](https://datashare.ed.ac.uk/handle/10283/3443). Split the data into `dev`, `test`, and `train` sets for a given speaker (e.g. `p225`). The resulting directory should have the following structure:
