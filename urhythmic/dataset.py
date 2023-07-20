@@ -28,7 +28,6 @@ class LogMelSpectrogram(torch.nn.Module):
             center=False,
             power=1.0,
             norm="slaney",
-            onesided=True,
             n_mels=n_mels,
             mel_scale="slaney",
         )
@@ -82,7 +81,8 @@ class MelDataset(Dataset):
                 f"Sample rate {info.sample_rate} doesn't match target of {self.sample_rate}"
             )
 
-        units = torch.from_numpy(np.load(units_path.with_suffix(".npy"))).float()
+        units = torch.from_numpy(np.load(units_path.with_suffix(".npy")))
+        units = units.transpose(0, 1)
 
         units_frames_per_segment = math.floor(self.segment_length / self.hop_length)
         units_diff = units.size(0) - units_frames_per_segment if self.train else 0

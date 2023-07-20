@@ -36,7 +36,7 @@ def resample_dataset(args):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Segment an audio dataset.")
+    parser = argparse.ArgumentParser(description="Resample an audio dataset.")
     parser.add_argument(
         "in_dir",
         metavar="in-dir",

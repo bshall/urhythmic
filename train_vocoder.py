@@ -168,7 +168,7 @@ def train_model(rank, world_size, args):
     logger.info("**" * 40)
     logger.info(f"batch size: {BATCH_SIZE}")
     logger.info(f"iterations per epoch: {len(train_loader)}")
-    logger.info(f"total of epochs: {n_epochs}")
+    logger.info(f"total number of epochs: {n_epochs}")
     logger.info(f"started at epoch: {start_epoch}")
     logger.info("**" * 40 + "\n")
 

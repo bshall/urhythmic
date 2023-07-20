@@ -47,8 +47,10 @@ def segment_dataset(args):
         )
 
     frames, boundary_length = zip(*results)
-    logger.info(f"Segmented {sum(frames) * 0.02 / 60 / 60} hours of audio")
-    logger.info(f"Average segment length: {np.mean(boundary_length) * 0.02} seconds")
+    logger.info(f"Segmented {sum(frames) * 0.02 / 60 / 60:.2f} hours of audio")
+    logger.info(
+        f"Average segment length: {np.mean(boundary_length) * 0.02:.4f} seconds"
+    )
 
 
 if __name__ == "__main__":

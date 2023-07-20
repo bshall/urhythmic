@@ -85,30 +85,37 @@ Here we outline the training steps for [VCTK](https://datashare.ed.ac.uk/handle/
 
 ### Step 1: Prepare the Dataset
 
-Download and extract [VCTK](https://datashare.ed.ac.uk/handle/10283/3443). Split the data into `train` and `dev` sets for a given speaker (e.g. `p225`). The resulting directory should have the following structure:
+Download and extract [VCTK](https://datashare.ed.ac.uk/handle/10283/3443). Split the data into `dev`, `test`, and `train` sets for a given speaker (e.g. `p225`). The resulting directory should have the following structure:
 
 ```
 p225
     ├── dev
+    │   ├── wavs
+    │   │   ├── p225_025.wav
+    │   │   ├── ...
+    │   │   ├── p225_045.wav
+    ├── test
     │   ├── wavs
     │   │   ├── p225_001.wav
     │   │   ├── ...
     │   │   ├── p225_024.wav
     ├── train
     │   ├── wavs
-    │   │   ├── p225_025.wav
+    │   │   ├── p225_046.wav
     │   │   ├── ...
     │   │   ├── p225_366.wav
 
 ```
 
+Note that for VCTK we take the first 24 parallel utterances as the `test` set. 
+
 Next, resample the audio to 16kHz using the `resample.py` script.
-Note that the script will replace each file with a 16kHz version so remember to copy your data if you want to keep the originals.
+The script will replace each file with a 16kHz version so remember to copy your data if you want to keep the originals.
 
 ```
 usage: resample.py [-h] [--sample_rate SAMPLE_RATE] in-dir
 
-Segment an audio dataset.
+Resample an audio dataset.
 
 positional arguments:
   in-dir                path to dataset directory.
@@ -127,7 +134,7 @@ python resample.py path/to/p225
 
 ### Step 2: Extract Soft Speech Units and Log Probabilities
 
-Encode the `dev` and `train` sets using HuBERT-Soft and the `encode.py` script:
+Encode the `dev`, `test`, and `train` sets using HuBERT-Soft and the `encode.py` script:
 
 ```
 usage: encode.py [-h] [--extension EXTENSION] in-dir out-dir
@@ -155,6 +162,10 @@ At this point the directory tree should look as follows:
 ```
 p225
     ├── dev
+    │   ├── wavs
+    │   ├── soft
+    │   ├── logprobs
+    ├── test
     │   ├── wavs
     │   ├── soft
     │   ├── logprobs
@@ -190,9 +201,9 @@ python train_segmenter.py path/to/p225/dev/ path/to/checkpoints/segmenter.pt
 
 ### Step 4: Segmentation and Clustering
 
-Segment the `dev` and `train` sets using the `segment.py` script.
+Segment the `dev`, `test`, and `train` sets using the `segment.py` script.
 Note, this script uses the [segmenter checkpoint](https://github.com/bshall/urhythmic/releases/tag/v0.1).
-You'll need to adapt the script to use your own checkpoint.
+You'll need to adapt the script to use your own checkpoint if required.
 
 ```
 usage: segment.py [-h] in-dir out-dir
@@ -218,6 +229,11 @@ At this point the directory tree should look as follows:
 ```
 p225
     ├── dev
+    │   ├── wavs
+    │   ├── soft
+    │   ├── logprobs
+    │   ├── segments
+    ├── test
     │   ├── wavs
     │   ├── soft
     │   ├── logprobs
