@@ -106,6 +106,6 @@ class MelDataset(Dataset):
 
         if units.size(0) < units_frames_per_segment:
             diff = units_frames_per_segment - units.size(0)
-            units = F.pad(units, (0, diff), "constant", units.mean())
+            units = F.pad(units, (0, 0, 0, diff), "constant", units.mean())
 
         return wav, units.transpose(0, 1), tgt_logmel
